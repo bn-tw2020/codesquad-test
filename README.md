@@ -6,4 +6,6 @@
 
 🔗 [2단계: 플레이어 이동 구현하기](https://github.com/bn-tw2020/codesquad-test/tree/step2)
 
-🔗 [3단계: 소코반 게이 완성하기](https://github.com/bn-tw2020/codesquad-test/tree/step3)
+🔗 [3단계: 소코반 게임 완성하기](https://github.com/bn-tw2020/codesquad-test/tree/step3)
+
+🔗 [4단계: 추가 기능 구현하기](https://github.com/bn-tw2020/codesquad-test/tree/step4)
