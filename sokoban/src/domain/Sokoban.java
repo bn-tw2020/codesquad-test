@@ -1,6 +1,8 @@
 package domain;
 
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,25 +11,28 @@ public class Sokoban {
     static Player player = new Player();
 
     public void start() {
-        ArrayList<ArrayList<String>> map = setUp();
-        int[][] playMap = getPlayMap(map);
-        printMapInformation(map, playMap);
-        int n = playMap.length;
-        int m = playMap[0].length;
+        ArrayList<ArrayList<String>> map = readMap();
 
-        printMap(playMap);
-        while(true) {
-            System.out.print("SOKOBAN> ");
-            Scanner scan = new Scanner(System.in);
-            String input = scan.next();
+        for (int stage = 0; stage < map.size(); stage++) {
 
-            if(input.equals("q")) {
-                System.out.println("Bye~");
-                return;
+            int[][] playMap = getPlayMap(map, stage);
+            printMapInformation(playMap);
+            int n = playMap.length;
+            int m = playMap[0].length;
+
+            printMap(playMap);
+            while(true) {
+                System.out.print("SOKOBAN> ");
+                Scanner scan = new Scanner(System.in);
+                String input = scan.next();
+
+                if(input.equals("q")) {
+                    System.out.println("Bye~");
+                    return;
+                }
+                move(playMap, n, m, input);
             }
-            move(playMap, n, m, input);
         }
-
     }
 
     private void move(int[][] playMap, int n, int m, String input) {
@@ -123,30 +128,21 @@ public class Sokoban {
         System.out.println();
     }
 
-    private int[][] getPlayMap(ArrayList<ArrayList<String>> map) {
-        int[][] playMap = convertMap(map.get(1));
-        System.out.println(map.get(1).get(0));
+    private int[][] getPlayMap(ArrayList<ArrayList<String>> map, int stage) {
+        int[][] playMap = convertMap(map.get(stage));
+        System.out.println(map.get(stage).get(0));
         return playMap;
     }
 
-    private void printMapInformation(ArrayList<ArrayList<String>> map, int[][] playMap) {
-        int hole = 0, ball = 0, y = -1, x = -1;
+    private void printMapInformation(int[][] playMap) {
         for (int j = 0; j < playMap.length; j++) {
             for (int k = 0; k < playMap[j].length; k++) {
-                if(playMap[j][k] == 1) hole++;
-                else if(playMap[j][k] == 2) ball++;
-                else if(playMap[j][k] == 3) {
+                if(playMap[j][k] == 3) {
                     player.setY(j);
                     player.setX(k);
                 }
             }
         }
-//        System.out.println("가로크기: " + map.get(1).get(1).length());
-//        System.out.println("세로크기: " + (map.get(1).size() - 1));
-//        System.out.println("구멍의 수 " + hole);
-//        System.out.println("공의 수 " + ball);
-//        System.out.println("플레이어 위치 (" + y + ", " + x + ")");
-//        System.out.println();
     }
 
     private ArrayList<ArrayList<String>> setUp() {
@@ -167,6 +163,33 @@ public class Sokoban {
         map.get(1).add("###  o  ###");
         map.get(1).add(" #   O  #  ");
         map.get(1).add(" ########  ");
+        return map;
+    }
+
+    private ArrayList<ArrayList<String>> readMap() {
+        ArrayList<ArrayList<String>> map = new ArrayList<ArrayList<String>>();
+
+        File file = new File("sokoban/src/map.txt");
+        int idx = -1;
+        try{
+            BufferedReader inFiles = new BufferedReader(new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "UTF8"));
+            String line = "";
+            while((line = inFiles.readLine()) != null) {
+                if(line.trim().length() > 0) {
+                    if(line.contains("Stage")) {
+                        map.add(new ArrayList<String>());
+                        idx++;
+                        map.get(idx).add(line);
+                    }
+                    else {
+                        map.get(idx).add(line);
+                    }
+                }
+            }
+            inFiles.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return map;
     }
 
