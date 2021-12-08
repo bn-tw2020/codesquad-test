@@ -19,6 +19,7 @@ public class Sokoban {
             printMapInformation(playMap);
             int n = playMap.length;
             int m = playMap[0].length;
+            int[][] defaultMap = getDefaultMap(playMap, n, m);
 
             printMap(playMap);
             while(true) {
@@ -26,13 +27,35 @@ public class Sokoban {
                 Scanner scan = new Scanner(System.in);
                 String input = scan.next();
 
-                if(input.equals("q")) {
+                if(input.equals("r")) {
+                    resetMap(playMap, n, m, defaultMap);
+                    printMap(playMap);
+                    System.out.println("스테이지를 초기화 했습니다.");
+                    continue;
+                }
+                else if(input.equals("q")) {
                     System.out.println("Bye~");
                     return;
                 }
                 move(playMap, n, m, input);
             }
         }
+    }
+
+    private void resetMap(int[][] playMap, int n, int m, int[][] defaultMap) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                playMap[i][j] = defaultMap[i][j];
+
+        printMapInformation(playMap);
+    }
+
+    private int[][] getDefaultMap(int[][] playMap, int n, int m) {
+        int[][] defaultMap = new int[n][m];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                defaultMap[i][j] = playMap[i][j];
+        return defaultMap;
     }
 
     private void move(int[][] playMap, int n, int m, String input) {
