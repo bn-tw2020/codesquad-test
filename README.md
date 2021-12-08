@@ -4,6 +4,6 @@
 
 🔗 [1단계: 지도 데이터 출력하기](https://github.com/bn-tw2020/codesquad-test/tree/step1)
 
-🔗 [2단계: ]
+🔗 [2단계: 플레이어 이동 구현하기](https://github.com/bn-tw2020/codesquad-test/tree/step2)
 
 🔗 [3단계: ]
