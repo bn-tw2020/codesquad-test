@@ -3,6 +3,15 @@ package domain;
 public class Player {
 
     private int y, x;
+    private int turn;
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 
     public int getY() {
         return y;
